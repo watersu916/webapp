@@ -9,22 +9,22 @@ pipeline {
     stage('Checkout') {
       steps {
         git branch: 'main', 
-        url: '<URL>'
+        url: 'https://github.com/watersu916/webapp.git'
       }
     }
     stage('Build') {
       steps {
-        sh '<MAVEN_BUILD_COMMAND>'
+        sh 'mvn clean package -DskipTests'
       }
     }
     stage('Test') {
       steps {
-        sh '<MAVEN_TEST_COMMAND>'
+        sh 'mvn test'
       }
     }
     stage('Deploy') {
       steps {
-        deploy adapters: [tomcat9(credentialsId: '<NAME>', url: '<URL>')], contextPath: null, war: 'path/to/war'
+        deploy adapters: [tomcat9(credentialsId: 'admin', url: 'http://192.168.56.102:8080/hello-world/')], contextPath: '/', war: 'target/*.war'
       }
     }
   }
